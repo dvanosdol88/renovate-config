@@ -1,7 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "enabled": false,
-  "description": "Renovate temporarily disabled to control GitHub Actions costs (Oct 2026). Re-enable by removing this line.",
+  "description": "Renovate fully disabled (including security alerts) to control GitHub Actions costs (Oct 2026). Re-enable by removing the enabled:false line.",
+  "vulnerabilityAlerts": {
+    "enabled": false
+  },
   "extends": [
     "config:recommended",
     ":dependencyDashboard",
@@ -16,15 +19,6 @@
   "prHourlyLimit": 4,
   "rebaseWhen": "conflicted",
   "platformAutomerge": true,
-  "vulnerabilityAlerts": {
-    "enabled": true,
-    "labels": [
-      "security"
-    ],
-    "schedule": [
-      "at any time"
-    ]
-  },
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true,
@@ -35,120 +29,64 @@
   },
   "packageRules": [
     {
-      "description": "GREEN LANE: DevDependencies patch/minor \u2014 silent automerge (no PR created)",
-      "matchDepTypes": [
-        "devDependencies"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "description": "GREEN LANE: DevDependencies patch/minor — silent automerge (no PR created)",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
       "automerge": true,
       "automergeType": "branch"
     },
     {
-      "description": "GREEN LANE: TypeScript types \u2014 silent automerge (except React/Node types)",
-      "matchPackageNames": [
-        "@types/**",
-        "!@types/react",
-        "!@types/react-dom",
-        "!@types/node"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "description": "GREEN LANE: TypeScript types — silent automerge (except React/Node types)",
+      "matchPackageNames": ["@types/**", "!@types/react", "!@types/react-dom", "!@types/node"],
+      "matchUpdateTypes": ["minor", "patch"],
       "groupName": "TypeScript Definitions",
       "automerge": true,
       "automergeType": "branch"
     },
     {
-      "description": "GREEN LANE: Production patches \u2014 automerge with PR (audit trail)",
-      "matchDepTypes": [
-        "dependencies"
-      ],
-      "matchUpdateTypes": [
-        "patch"
-      ],
+      "description": "GREEN LANE: Production patches — automerge with PR (audit trail)",
+      "matchDepTypes": ["dependencies"],
+      "matchUpdateTypes": ["patch"],
       "automerge": true,
       "automergeType": "pr"
     },
     {
-      "description": "GREEN LANE: Tailwind ecosystem \u2014 automerge non-major (grouped together)",
-      "matchPackageNames": [
-        "tailwindcss",
-        "postcss",
-        "autoprefixer",
-        "@tailwindcss/**",
-        "tailwind-merge",
-        "clsx"
-      ],
+      "description": "GREEN LANE: Tailwind ecosystem — automerge non-major (grouped together)",
+      "matchPackageNames": ["tailwindcss", "postcss", "autoprefixer", "@tailwindcss/**", "tailwind-merge", "clsx"],
       "groupName": "Tailwind CSS",
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
     },
     {
-      "description": "YELLOW LANE: Next.js framework \u2014 ALWAYS require approval",
-      "matchPackageNames": [
-        "next",
-        "eslint-config-next",
-        "@next/**"
-      ],
+      "description": "YELLOW LANE: Next.js framework — ALWAYS require approval",
+      "matchPackageNames": ["next", "eslint-config-next", "@next/**"],
       "groupName": "Next.js",
       "dependencyDashboardApproval": true,
       "automerge": false,
-      "labels": [
-        "dependencies",
-        "framework",
-        "requires-approval"
-      ]
+      "labels": ["dependencies", "framework", "requires-approval"]
     },
     {
-      "description": "YELLOW LANE: React ecosystem \u2014 ALWAYS require approval",
-      "matchPackageNames": [
-        "react",
-        "react-dom",
-        "@types/react",
-        "@types/react-dom"
-      ],
+      "description": "YELLOW LANE: React ecosystem — ALWAYS require approval",
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
       "groupName": "React",
       "dependencyDashboardApproval": true,
       "automerge": false,
-      "labels": [
-        "dependencies",
-        "framework",
-        "requires-approval"
-      ]
+      "labels": ["dependencies", "framework", "requires-approval"]
     },
     {
-      "description": "YELLOW LANE: Sentry \u2014 require approval, group together",
-      "matchPackageNames": [
-        "@sentry/**"
-      ],
+      "description": "YELLOW LANE: Sentry — require approval, group together",
+      "matchPackageNames": ["@sentry/**"],
       "groupName": "Sentry",
       "dependencyDashboardApproval": true,
       "automerge": false,
-      "labels": [
-        "dependencies",
-        "observability",
-        "requires-approval"
-      ]
+      "labels": ["dependencies", "observability", "requires-approval"]
     },
     {
-      "description": "RED LANE: ALL major updates \u2014 require dashboard approval",
-      "matchUpdateTypes": [
-        "major"
-      ],
+      "description": "RED LANE: ALL major updates — require dashboard approval",
+      "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true,
       "automerge": false,
-      "labels": [
-        "dependencies",
-        "major-update",
-        "requires-approval"
-      ]
+      "labels": ["dependencies", "major-update", "requires-approval"]
     }
   ]
 }
